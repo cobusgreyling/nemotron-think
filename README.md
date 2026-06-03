@@ -3,7 +3,8 @@
 </p>
 
 <p align="center">
-  <a href="https://cobusgreyling.github.io/nemotron-think/"><strong>🌐 View the interactive web landing page + live trace demo</strong></a>
+  <strong>🌐 <a href="https://github.com/cobusgreyling/nemotron-think/blob/main/docs/index.html">Open the interactive web landing page + live trace demo</a></strong><br>
+  <small>(Hosted version at <a href="https://cobusgreyling.github.io/nemotron-think/">cobusgreyling.github.io/nemotron-think</a> — enable GitHub Pages with source = <code>main</code> / <code>/docs</code>)</small>
 </p>
 
 # nemotron-think
@@ -61,8 +62,9 @@ Live terminal output uses color:
 
 ## 🌐 Landing Page & Full Documentation
 
-- **🌐 Web Landing Page + Live Demo**: [https://cobusgreyling.github.io/nemotron-think/](https://cobusgreyling.github.io/nemotron-think/) (interactive trace replay, no install needed)
-- **Local version**: open `docs/index.html` in any browser (self-contained, works fully offline)
+- **🌐 Web Landing Page + Live Demo**: [https://cobusgreyling.github.io/nemotron-think/](https://cobusgreyling.github.io/nemotron-think/) — the beautiful hosted version with the interactive trace player.
+- **View directly on GitHub**: [docs/index.html](https://github.com/cobusgreyling/nemotron-think/blob/main/docs/index.html)
+- **Local / offline**: open `docs/index.html` in any browser (fully self-contained, no internet needed)
 - **Detailed Docs**: see the `docs/` folder:
   - [Getting Started](docs/getting-started.md)
   - [Traces & Replay](docs/traces.md)
@@ -224,5 +226,5 @@ The streaming helpers originated from early internal walkthrough notebooks for t
 **Make the model's thinking visible. Build agents people can actually trust and learn from.**
 
 <p align="center">
-  <a href="https://cobusgreyling.github.io/nemotron-think/">🌐 Open the interactive web landing page & live trace demo</a>
+  <a href="https://github.com/cobusgreyling/nemotron-think/blob/main/docs/index.html">🌐 Open the interactive landing page & live trace demo</a>
 </p>
