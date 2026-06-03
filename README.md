@@ -3,8 +3,10 @@
 </p>
 
 <p align="center">
-  <strong>🌐 <a href="https://github.com/cobusgreyling/nemotron-think/blob/main/docs/index.html">Open the interactive web landing page + live trace demo</a></strong><br>
-  <small>(Hosted version at <a href="https://cobusgreyling.github.io/nemotron-think/">cobusgreyling.github.io/nemotron-think</a> — enable GitHub Pages with source = <code>main</code> / <code>/docs</code>)</small>
+  <strong>🌐 <a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/cobusgreyling/nemotron-think/main/docs/index.html">Open the interactive web landing page + live trace demo</a></strong><br>
+  <small>
+    (GitHub Pages hosted version: <a href="https://cobusgreyling.github.io/nemotron-think/">cobusgreyling.github.io/nemotron-think</a> — enable Pages with source = <code>main</code> / <code>/docs</code> after making repo public if needed)
+  </small>
 </p>
 
 # nemotron-think
