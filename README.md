@@ -2,6 +2,10 @@
   <img src="assets/header-agent.jpg" width="100%" alt="nemotron-think — Visible Reasoning Agent Framework for NVIDIA Nemotron 3 Ultra">
 </p>
 
+<p align="center">
+  <a href="https://cobusgreyling.github.io/nemotron-think/"><strong>🌐 View the interactive web landing page + live trace demo</strong></a>
+</p>
+
 # nemotron-think
 
 **Visible Reasoning Agent Framework for NVIDIA Nemotron 3 Ultra**
@@ -57,7 +61,8 @@ Live terminal output uses color:
 
 ## 🌐 Landing Page & Full Documentation
 
-- **Interactive Landing Page + Trace Demo**: open `docs/index.html` in any browser (self-contained, works offline after first load). Includes live replay of saved traces.
+- **🌐 Web Landing Page + Live Demo**: [https://cobusgreyling.github.io/nemotron-think/](https://cobusgreyling.github.io/nemotron-think/) (interactive trace replay, no install needed)
+- **Local version**: open `docs/index.html` in any browser (self-contained, works fully offline)
 - **Detailed Docs**: see the `docs/` folder:
   - [Getting Started](docs/getting-started.md)
   - [Traces & Replay](docs/traces.md)
@@ -143,7 +148,7 @@ See full guide: [docs/extending-tools.md](docs/extending-tools.md)
 nemotron-think/
 ├── assets/
 │   └── header-agent.jpg
-├── docs/                    # Full documentation + interactive landing page (open docs/index.html)
+├── docs/                    # Full documentation + interactive web landing page (docs/index.html)
 ├── examples/
 │   └── traces/
 │       └── math_tool_example.json
@@ -219,5 +224,5 @@ The streaming helpers originated from early internal walkthrough notebooks for t
 **Make the model's thinking visible. Build agents people can actually trust and learn from.**
 
 <p align="center">
-  <a href="docs/index.html">→ Open the interactive landing page & trace demo</a>
+  <a href="https://cobusgreyling.github.io/nemotron-think/">🌐 Open the interactive web landing page & live trace demo</a>
 </p>
