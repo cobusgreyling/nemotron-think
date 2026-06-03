@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/header-terminal.jpg" width="100%" alt="nemotron-think — Visible Reasoning Agent Framework for NVIDIA Nemotron 3 Ultra">
+</p>
+
 # nemotron-think
 
 **Visible Reasoning Agent Framework for NVIDIA Nemotron 3 Ultra.**
