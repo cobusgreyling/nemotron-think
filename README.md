@@ -5,8 +5,7 @@
 <p align="center">
   <strong>🌐 <a href="https://github.com/cobusgreyling/nemotron-think/blob/main/docs/index.html">Open the interactive landing page + live trace demo</a></strong><br>
   <small>
-    (Best experience: clone the repo and run <code>open docs/index.html</code> locally — works offline.<br>
-    Official hosted version coming soon: <a href="https://cobusgreyling.github.io/nemotron-think/">cobusgreyling.github.io/nemotron-think</a> — see instructions below to enable GitHub Pages)
+    (Best: clone &amp; <code>open docs/index.html</code> locally. For a free public URL use the one-click Vercel/Netlify buttons below — works with private repos.)
   </small>
 </p>
 
@@ -65,8 +64,23 @@ Live terminal output uses color:
 
 ## 🌐 Landing Page & Full Documentation
 
+**Important:** GitHub Pages only works for **public** repositories on the free plan. Private repos require a paid plan (Pro+) for Pages. See the official docs: GitHub Pages is available in public repositories with GitHub Free, and in public **and private** repositories only with GitHub Pro, Team, or Enterprise.
+
+### Current options for the showcase
+
 - **View on GitHub** (recommended while repo is private): [docs/index.html](https://github.com/cobusgreyling/nemotron-think/blob/main/docs/index.html) — click the **Raw** button at the top for the full rendered interactive page.
 - **Local / fully offline** (best current experience): From the cloned repo, run `open docs/index.html` (or `xdg-open` / double-click). The page is completely self-contained.
+- **Free public hosted version (recommended for sharing)**: Deploy the `docs/` folder to Vercel or Netlify (works great with private GitHub repos on the free tier). One-click options below.
+
+#### One-click deploy (free public URL)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fcobusgreyling%2Fnemotron-think&project-name=nemotron-think&repository-name=nemotron-think)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/cobusgreyling/nemotron-think)
+
+(After deploying, set the publish directory to `docs` if the UI asks.)
+
+To enable the official `https://cobusgreyling.github.io/nemotron-think/` URL, you must either:
+- Make this repository **public**, then enable GitHub Pages (Settings → Pages → Source: `main` / `/docs`), **or**
+- Upgrade your GitHub account to Pro (or higher).
 - **Official hosted web version**: [https://cobusgreyling.github.io/nemotron-think/](https://cobusgreyling.github.io/nemotron-think/) — enable GitHub Pages (see instructions in `docs/README.md`).
 - **Detailed Docs**: see the `docs/` folder:
   - [Getting Started](docs/getting-started.md)
