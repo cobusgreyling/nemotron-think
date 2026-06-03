@@ -2,6 +2,11 @@
   <img src="assets/header-terminal.jpg" width="100%" alt="nemotron-think — Visible Reasoning Agent Framework for NVIDIA Nemotron 3 Ultra">
 </p>
 
+<!-- Alternative banners in assets/:
+     - header-abstract.jpg (beautiful thought bubbles + code)
+     - header-agent.jpg (stylized transparent AI head)
+-->
+
 # nemotron-think
 
 **Visible Reasoning Agent Framework for NVIDIA Nemotron 3 Ultra.**
