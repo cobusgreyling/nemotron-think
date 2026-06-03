@@ -2,14 +2,19 @@
 
 This folder contains the full documentation for nemotron-think plus the interactive landing page.
 
-## For GitHub Pages (recommended)
+## For GitHub Pages (recommended for the hosted web version)
 
 1. Go to your repo → **Settings** → **Pages**
 2. Under "Build and deployment", set **Source** to **Deploy from a branch**
-3. Set branch to `main` (or master) and folder to `/docs`
+3. Set branch to `main` and folder to `/docs`
 4. Save
 
-Your landing page will be live at `https://<user>.github.io/nemotron-think/`
+Your landing page will be live at `https://cobusgreyling.github.io/nemotron-think/`
+
+**Important notes:**
+- The repo is currently **private**. GitHub Pages for private repositories requires a paid plan (GitHub Pro or higher).
+- For a public showcase/landing page that anyone can visit, make the repository public first (Settings → General → "Make public").
+- Once enabled, it can take a minute or two for the site to build and become available.
 
 The `index.html` is a fully self-contained modern landing page with interactive trace replay (no backend needed).
 
