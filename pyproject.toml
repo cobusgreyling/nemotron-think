@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nemotron-think"
+version = "0.1.0"
+description = "Visible Reasoning Agent Framework for NVIDIA Nemotron 3 Ultra — every thought, tool call, and decision is logged and surfaced."
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+  {name = "Cobus Greyling"}
+]
+dependencies = [
+    "openai>=1.0.0",
+    "python-dotenv>=1.0.0",
+    "requests>=2.31.0",
+    "beautifulsoup4>=4.12.0",
+    "lxml>=5.0.0",
+    "rich>=13.7.0",   # beautiful colored live output
+]
+optional-dependencies = {dev = ["pytest", "ruff"]}
+
+[project.scripts]
+nemotron-think = "nemotron_think.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/cobusgreyling/nemotron-think"
+Repository = "https://github.com/cobusgreyling/nemotron-think"
+
+[tool.setuptools.packages.find]
+where = ["."]
+
+[tool.setuptools.package-data]
+nemotron_think = ["*.md", "examples/*"]
