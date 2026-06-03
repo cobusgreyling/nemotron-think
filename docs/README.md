@@ -1,6 +1,26 @@
 # Documentation
 
-This folder contains the full documentation for nemotron-think plus the interactive landing page.
+This folder contains the full documentation for nemotron-think plus the interactive landing page (`docs/index.html`).
+
+## Current best ways to view the interactive landing page
+
+Because the repository is currently **private**:
+
+1. **Easiest right now (full beautiful experience)**: Clone the repo and open the file locally:
+   ```bash
+   git clone https://github.com/cobusgreyling/nemotron-think.git
+   cd nemotron-think
+   open docs/index.html     # macOS
+   # or double-click the file, or use xdg-open / python -m http.server
+   ```
+   The page is 100% self-contained (Tailwind via CDN + embedded demo data).
+
+2. **On GitHub** (while logged in as owner/collaborator):
+   Go to https://github.com/cobusgreyling/nemotron-think/blob/main/docs/index.html
+   Then click the **Raw** button in the top right. This renders the full interactive page.
+
+3. **Future hosted version** (public URL): `https://cobusgreyling.github.io/nemotron-think/`
+   See the "For GitHub Pages" section below to enable it. You will likely need to make the repo public first.
 
 ## For GitHub Pages (recommended for the hosted web version)
 
