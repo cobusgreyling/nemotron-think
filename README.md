@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/header-agent.jpg" width="100%" alt="nemotron-think — Visible Reasoning Agent Framework for NVIDIA Nemotron 3 Ultra">
+  <img src="header-agent.jpg" width="100%" alt="nemotron-think — Visible Reasoning Agent Framework for NVIDIA Nemotron 3 Ultra">
 </p>
 
 <!-- Alternative banners in assets/:
