@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nemotron-think • Visible Reasoning Agent Framework</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
+        
+        :root {
+            --accent: #22c55e;
+        }
+        
+        body {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        
+        .font-display {
+            font-family: 'Space Grotesk', 'Inter', system_ui, sans-serif;
+            font-weight: 600;
+        }
+
+        .hero-bg {
+            background: radial-gradient(circle at 50% 20%, #0a0a0a 0%, #000000 70%);
+        }
+
+        .section-header {
+            font-size: 2.25rem;
+            line-height: 1.1;
+            font-weight: 700;
+            letter-spacing: -.03em;
+        }
+
+        .terminal {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            background: #0a0a0a;
+            color: #e5e5e5;
+        }
+
+        .reasoning-text { color: #4ade80; }
+        .tool-text { color: #fb923c; }
+        .content-text { color: #f1f5f9; }
+
+        .nav-active {
+            color: white;
+            border-bottom: 2px solid #22c55e;
+        }
+
+        .feature-card {
+            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
+                        box-shadow 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        .step-pill {
+            transition: all 0.1s ease;
+        }
+
+        .demo-terminal {
+            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.4);
+            border: 1px solid #262626;
+        }
+
+        .token {
+            display: inline-block;
+            animation: token-pop 80ms ease forwards;
+        }
+
+        @keyframes token-pop {
+            from { opacity: 0; transform: translateY(1px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .metric {
+            font-variant-numeric: tabular-nums;
+        }
+
+        .subtle-grid {
+            background-image: 
+                linear-gradient(to right, #171717 1px, transparent 1px),
+                linear-gradient(to bottom, #171717 1px, transparent 1px);
+            background-size: 48px 48px;
+            opacity: 0.4;
+        }
+
+        .nvidia-green {
+            color: #76b900;
+        }
+
+        .mono {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        }
+
+        .prose-custom p {
+            color: #a3a3a3;
+        }
+
+        .stat-number {
+            font-feature-settings: "ss02";
+        }
+    </style>
+</head>
+<body class="bg-zinc-950 text-zinc-200">
+    <!-- NAV -->
+    <nav class="sticky top-0 z-50 border-b border-white/10 bg-zinc-950/95 backdrop-blur-lg">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex h-16 items-center justify-between">
+                <div class="flex items-center gap-x-3">
+                    <div class="flex items-center gap-x-2.5">
+                        <div class="w-9 h-9 rounded-xl bg-emerald-500/10 flex items-center justify-center ring-1 ring-inset ring-emerald-500/20">
+                            <i class="fa-solid fa-brain text-emerald-400 text-2xl"></i>
+                        </div>
+                        <div>
+                            <span class="font-display text-2xl font-semibold tracking-tighter">nemotron-think</span>
+                        </div>
+                    </div>
+                    <div class="hidden md:flex items-center rounded-full bg-white/5 px-3 py-1 text-xs font-medium ring-1 ring-inset ring-white/10">
+                        <span class="text-emerald-400">v0.1.0</span>
+                    </div>
+                </div>
+
+                <div class="hidden md:flex items-center gap-x-8 text-sm">
+                    <a href="#features" class="hover:text-white text-zinc-400 transition-colors">Features</a>
+                    <a href="#demo" class="hover:text-white text-zinc-400 transition-colors">Live Demo</a>
+                    <a href="#how" class="hover:text-white text-zinc-400 transition-colors">How it works</a>
+                    <a href="#tools" class="hover:text-white text-zinc-400 transition-colors">Tools</a>
+                </div>
+
+                <div class="flex items-center gap-x-3">
+                    <a href="https://github.com/cobusgreyling/nemotron-think" 
+                       class="inline-flex items-center gap-x-2 rounded-xl bg-white/5 px-4 py-2 text-sm font-medium ring-1 ring-inset ring-white/10 hover:bg-white/10 transition-all active:scale-[0.985]">
+                        <i class="fa-brands fa-github"></i>
+                        <span class="hidden sm:inline">GitHub</span>
+                    </a>
+                    <a href="#demo"
+                       class="inline-flex items-center gap-x-2 rounded-xl bg-emerald-500 px-4 py-2 text-sm font-semibold text-black hover:bg-emerald-400 active:bg-emerald-600 transition-all active:scale-[0.985]">
+                        <i class="fa-solid fa-play mr-1"></i>
+                        <span>Try the demo</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <div class="max-w-7xl mx-auto px-6 pt-16 pb-12">
+        <div class="grid lg:grid-cols-12 gap-x-12 items-center">
+            <div class="lg:col-span-7">
+                <div class="inline-flex items-center gap-x-2 rounded-full bg-white/5 px-3 py-1 text-xs font-medium ring-1 ring-white/10 mb-6">
+                    <div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
+                    <span>Built for NVIDIA Nemotron 3 Ultra</span>
+                </div>
+
+                <h1 class="font-display text-7xl lg:text-7xl tracking-tighter font-semibold leading-[0.96]">
+                    Make the model's<br>thinking <span class="text-emerald-400">visible</span>.
+                </h1>
+                
+                <p class="mt-6 max-w-lg text-xl text-zinc-400">
+                    A minimal, powerful agent framework that surfaces every reasoning step, 
+                    live tool-call construction, and self-correction from Nemotron 3 Ultra.
+                </p>
+
+                <div class="mt-8 flex flex-wrap items-center gap-4">
+                    <a href="#demo" 
+                       class="inline-flex items-center justify-center gap-x-2 rounded-2xl bg-white px-8 py-3.5 text-base font-semibold text-black transition active:scale-[0.985] hover:bg-zinc-100">
+                        <i class="fa-solid fa-play"></i>
+                        <span>Watch the interactive demo</span>
+                    </a>
+                    
+                    <a href="../README.md" 
+                       class="inline-flex items-center justify-center gap-x-2 rounded-2xl border border-white/20 bg-white/5 px-6 py-3.5 text-base font-medium hover:bg-white/10 transition active:scale-[0.985]">
+                        <span>Read the docs</span>
+                    </a>
+                </div>
+
+                <div class="mt-8 flex items-center gap-x-6 text-sm">
+                    <div class="flex items-center -space-x-1">
+                        <div class="w-6 h-6 rounded-full bg-zinc-800 ring-2 ring-zinc-950 overflow-hidden"><img src="https://avatars.githubusercontent.com/u/13917?v=4" class="w-full h-full object-cover"></div>
+                        <div class="w-6 h-6 rounded-full bg-zinc-800 ring-2 ring-zinc-950 overflow-hidden"><img src="https://avatars.githubusercontent.com/u/6154722?v=4" class="w-full h-full object-cover"></div>
+                    </div>
+                    <div class="text-zinc-500 text-xs">
+                        Used in research demos &amp; production agent tooling
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hero visual -->
+            <div class="lg:col-span-5 mt-10 lg:mt-0">
+                <div class="relative rounded-3xl overflow-hidden ring-1 ring-white/10 shadow-2xl">
+                    <img src="../assets/header-agent.jpg" 
+                         alt="nemotron-think hero: stylized transparent AI agent head with visible thought processes"
+                         class="w-full h-auto object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-black/60 to-black/80"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6">
+                        <div class="flex items-center gap-2 text-xs">
+                            <div class="px-2.5 py-1 rounded-lg bg-black/60 backdrop-blur text-emerald-400 font-mono text-[10px] ring-1 ring-white/10">enable_thinking: true</div>
+                            <div class="px-2.5 py-1 rounded-lg bg-black/60 backdrop-blur text-orange-400 font-mono text-[10px] ring-1 ring-white/10">reasoning_budget: 8192</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- STATS / TRUST -->
+    <div class="border-y border-white/10 bg-zinc-900/40">
+        <div class="max-w-7xl mx-auto px-6 py-5">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-y-6 text-center">
+                <div>
+                    <div class="text-3xl font-semibold tracking-tighter stat-number">100%</div>
+                    <div class="text-xs text-zinc-500 mt-1">of reasoning surfaced</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-semibold tracking-tighter stat-number">2</div>
+                    <div class="text-xs text-zinc-500 mt-1">lines to add a custom tool</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-semibold tracking-tighter stat-number">0</div>
+                    <div class="text-xs text-zinc-500 mt-1">extra API keys required</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-semibold tracking-tighter">Replayable</div>
+                    <div class="text-xs text-zinc-500 mt-1">traces for demos &amp; evals</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FEATURES -->
+    <div id="features" class="max-w-7xl mx-auto px-6 pt-20 pb-12">
+        <div class="text-center mb-12">
+            <div class="text-emerald-400 text-sm font-semibold tracking-[1.5px] uppercase">Why this exists</div>
+            <h2 class="section-header tracking-tighter mt-2">Every thought.<br>Every decision. Visible.</h2>
+            <p class="mt-4 text-lg text-zinc-400 max-w-md mx-auto">Most agents are black boxes. nemotron-think turns the black box into a glass box.</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div class="feature-card bg-zinc-900 border border-white/10 rounded-3xl p-7">
+                <div class="w-11 h-11 flex items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-400 mb-5 ring-1 ring-inset ring-emerald-500/20">
+                    <i class="fa-solid fa-eye text-2xl"></i>
+                </div>
+                <h3 class="font-semibold text-xl tracking-tight">Visible reasoning stream</h3>
+                <p class="mt-3 text-sm text-zinc-400 leading-relaxed">Nemotron 3 Ultra’s <span class="font-medium text-zinc-300">enable_thinking</span> + reasoning deltas are rendered live in the terminal (green). You see the model think before it acts.</p>
+            </div>
+
+            <div class="feature-card bg-zinc-900 border border-white/10 rounded-3xl p-7">
+                <div class="w-11 h-11 flex items-center justify-center rounded-2xl bg-orange-500/10 text-orange-400 mb-5 ring-1 ring-inset ring-orange-500/20">
+                    <i class="fa-solid fa-stream text-2xl"></i>
+                </div>
+                <h3 class="font-semibold text-xl tracking-tight">Live tool call streaming</h3>
+                <p class="mt-3 text-sm text-zinc-400 leading-relaxed">Watch <span class="font-medium text-zinc-300">delta.tool_calls</span> being assembled token-by-token (orange). The model’s argument construction is no longer hidden.</p>
+            </div>
+
+            <div class="feature-card bg-zinc-900 border border-white/10 rounded-3xl p-7">
+                <div class="w-11 h-11 flex items-center justify-center rounded-2xl bg-sky-500/10 text-sky-400 mb-5 ring-1 ring-inset ring-sky-500/20">
+                    <i class="fa-solid fa-history text-2xl"></i>
+                </div>
+                <h3 class="font-semibold text-xl tracking-tight">Rich, replayable traces</h3>
+                <p class="mt-3 text-sm text-zinc-400 leading-relaxed">Every run becomes a self-contained JSON artifact with full reasoning, tool calls, and observations. Replay perfectly offline with <span class="font-mono text-xs bg-black px-1.5 py-px rounded">nemotron-think replay</span>.</p>
+            </div>
+
+            <div class="feature-card bg-zinc-900 border border-white/10 rounded-3xl p-7">
+                <div class="w-11 h-11 flex items-center justify-center rounded-2xl bg-violet-500/10 text-violet-400 mb-5 ring-1 ring-inset ring-violet-500/20">
+                    <i class="fa-solid fa-sliders-h text-2xl"></i>
+                </div>
+                <h3 class="font-semibold text-xl tracking-tight">Controllable reasoning budget</h3>
+                <p class="mt-3 text-sm text-zinc-400 leading-relaxed">Dial <span class="font-medium text-zinc-300">--budget 8192</span> or <span class="font-medium text-zinc-300">--low-effort</span> per run. Match compute to task difficulty without changing your agent code.</p>
+            </div>
+
+            <div class="feature-card bg-zinc-900 border border-white/10 rounded-3xl p-7">
+                <div class="w-11 h-11 flex items-center justify-center rounded-2xl bg-rose-500/10 text-rose-400 mb-5 ring-1 ring-inset ring-rose-500/20">
+                    <i class="fa-solid fa-puzzle-piece text-2xl"></i>
+                </div>
+                <h3 class="font-semibold text-xl tracking-tight">Pluggable tools, 5 lines each</h3>
+                <p class="mt-3 text-sm text-zinc-400 leading-relaxed">Define a Python function + JSON schema. The agent handles streaming, execution, observation injection and trace capture automatically.</p>
+            </div>
+
+            <div class="feature-card bg-zinc-900 border border-white/10 rounded-3xl p-7">
+                <div class="w-11 h-11 flex items-center justify-center rounded-2xl bg-amber-500/10 text-amber-400 mb-5 ring-1 ring-inset ring-amber-500/20">
+                    <i class="fa-solid fa-database text-2xl"></i>
+                </div>
+                <h3 class="font-semibold text-xl tracking-tight">Gold for evals &amp; fine-tuning</h3>
+                <p class="mt-3 text-sm text-zinc-400 leading-relaxed">The <span class="font-medium text-zinc-300">AgentRun</span> + per-step reasoning traces are perfect structured data for building reasoning datasets or running rigorous agent evaluations.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- INTERACTIVE DEMO -->
+    <div id="demo" class="bg-black border-y border-white/10 py-16">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex items-end justify-between mb-8">
+                <div>
+                    <div class="uppercase tracking-[2px] text-xs font-semibold text-emerald-400">No API key required</div>
+                    <h2 class="section-header tracking-tighter">Interactive trace replay</h2>
+                    <p class="text-zinc-400 mt-2 max-w-md">This is a real saved trace from the agent. Press play to watch the model reason and call tools exactly as it happened.</p>
+                </div>
+                <div class="hidden md:block">
+                    <div class="text-xs px-3 py-1.5 rounded-2xl bg-zinc-900 border border-white/10 text-zinc-400 flex items-center gap-x-2">
+                        <i class="fa-solid fa-circle text-emerald-400 text-[9px]"></i>
+                        <span>2 steps • 1 tool call</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DEMO TERMINAL -->
+            <div class="demo-terminal rounded-3xl overflow-hidden border border-white/10 bg-zinc-950 max-w-[980px] mx-auto">
+                <!-- Demo header -->
+                <div class="bg-zinc-900 border-b border-white/10 px-5 h-12 flex items-center justify-between">
+                    <div class="flex items-center gap-x-3">
+                        <div class="flex gap-x-1.5">
+                            <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                            <div class="w-3 h-3 rounded-full bg-emerald-500/80"></div>
+                        </div>
+                        <div class="text-xs text-zinc-500 font-mono ml-2">nemotron-think replay examples/traces/math_tool_example.json</div>
+                    </div>
+                    
+                    <div class="flex items-center gap-x-2 text-xs">
+                        <div class="px-2.5 py-px rounded bg-emerald-900/50 text-emerald-400 font-mono flex items-center">
+                            <i class="fa-solid fa-brain mr-1.5 text-[10px]"></i>
+                            <span id="demo-model">nemotron-3-ultra</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-5">
+                    <!-- Task -->
+                    <div class="mb-5">
+                        <div class="text-[10px] uppercase tracking-wider text-zinc-500 mb-1.5 font-medium">TASK</div>
+                        <div id="demo-task" 
+                             class="terminal text-sm px-4 py-3 rounded-2xl border border-white/10 bg-zinc-900 leading-snug"></div>
+                    </div>
+
+                    <!-- Controls -->
+                    <div class="flex items-center gap-x-2 mb-4">
+                        <button onclick="resetDemo()"
+                                class="px-4 py-1.5 rounded-2xl border border-white/15 text-xs hover:bg-white/5 active:bg-white/10 transition flex items-center gap-x-2">
+                            <i class="fa-solid fa-undo text-xs"></i>
+                            <span>Reset</span>
+                        </button>
+                        
+                        <button onclick="playAllSteps()"
+                                class="px-5 py-1.5 rounded-2xl bg-emerald-500 hover:bg-emerald-400 active:bg-emerald-600 transition text-xs font-semibold text-black flex items-center gap-x-2">
+                            <i class="fa-solid fa-play"></i>
+                            <span id="play-btn-text">Play full trace</span>
+                        </button>
+
+                        <button onclick="nextStep()"
+                                class="px-4 py-1.5 rounded-2xl border border-white/15 hover:bg-white/5 text-xs flex items-center gap-x-2">
+                            <span>Next step</span>
+                            <i class="fa-solid fa-arrow-right text-xs"></i>
+                        </button>
+
+                        <div class="flex-1"></div>
+                        
+                        <div class="text-[10px] px-3 py-1 rounded-2xl bg-zinc-900 border border-white/10 text-zinc-400 font-mono">
+                            <span id="step-counter">Step 0 / 2</span>
+                        </div>
+                    </div>
+
+                    <!-- Live output area -->
+                    <div class="terminal text-sm rounded-2xl border border-white/10 p-5 min-h-[280px] max-h-[380px] overflow-auto" id="demo-output">
+                        <div class="text-zinc-500 text-xs font-mono mb-3">— Waiting for playback —</div>
+                    </div>
+
+                    <!-- Legend -->
+                    <div class="flex gap-x-5 mt-4 text-xs">
+                        <div class="flex items-center gap-x-1.5">
+                            <div class="w-3 h-px bg-emerald-400"></div>
+                            <span class="text-emerald-400 text-xs">reasoning</span>
+                        </div>
+                        <div class="flex items-center gap-x-1.5">
+                            <div class="w-3 h-px bg-orange-400"></div>
+                            <span class="text-orange-400 text-xs">tool call deltas</span>
+                        </div>
+                        <div class="flex items-center gap-x-1.5">
+                            <div class="w-3 h-px bg-sky-300"></div>
+                            <span class="text-sky-300 text-xs">final content</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <a href="traces.md" class="text-xs text-zinc-500 hover:text-zinc-300 inline-flex items-center gap-x-1">
+                    Learn more about traces <i class="fa-solid fa-arrow-right text-[9px] ml-px"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- HOW IT WORKS -->
+    <div id="how" class="max-w-7xl mx-auto px-6 pt-16 pb-12">
+        <div class="max-w-2xl">
+            <div class="text-emerald-400 text-sm font-semibold tracking-[1.5px] uppercase">Under the hood</div>
+            <h2 class="section-header tracking-tighter mt-2">A tiny, transparent loop</h2>
+        </div>
+
+        <div class="mt-10 grid md:grid-cols-12 gap-5 text-sm">
+            <div class="md:col-span-5 bg-zinc-900 border border-white/10 rounded-3xl p-8">
+                <ol class="space-y-6">
+                    <li class="flex gap-x-4">
+                        <div class="font-mono text-emerald-400 w-6">01</div>
+                        <div>
+                            <div class="font-medium">User sends task</div>
+                            <div class="text-zinc-400 text-xs mt-0.5">VisibleReasoningAgent.run(task, reasoning_budget=...)</div>
+                        </div>
+                    </li>
+                    <li class="flex gap-x-4">
+                        <div class="font-mono text-emerald-400 w-6">02</div>
+                        <div>
+                            <div class="font-medium">Stream with thinking enabled</div>
+                            <div class="text-zinc-400 text-xs mt-0.5">extra_body contains enable_thinking + reasoning_budget + tools</div>
+                        </div>
+                    </li>
+                    <li class="flex gap-x-4">
+                        <div class="font-mono text-emerald-400 w-6">03</div>
+                        <div>
+                            <div class="font-medium">Print + capture simultaneously</div>
+                            <div class="text-zinc-400 text-xs mt-0.5">Reasoning (green) → content → live tool call deltas (orange)</div>
+                        </div>
+                    </li>
+                    <li class="flex gap-x-4">
+                        <div class="font-mono text-emerald-400 w-6">04</div>
+                        <div>
+                            <div class="font-medium">Execute tools locally</div>
+                            <div class="text-zinc-400 text-xs mt-0.5">Results fed back as role:tool messages for the next turn</div>
+                        </div>
+                    </li>
+                    <li class="flex gap-x-4">
+                        <div class="font-mono text-emerald-400 w-6">05</div>
+                        <div>
+                            <div class="font-medium">Repeat or finish</div>
+                            <div class="text-zinc-400 text-xs mt-0.5">When model emits no tool_calls → we have the final answer</div>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="md:col-span-7">
+                <div class="bg-zinc-900 border border-white/10 rounded-3xl p-8 h-full">
+                    <div class="uppercase text-xs tracking-wider font-medium text-zinc-400 mb-3">The key insight</div>
+                    
+                    <div class="prose-custom text-[15px] leading-relaxed text-zinc-300">
+                        Nemotron 3 Ultra doesn’t just return a final answer. It can stream its <span class="text-emerald-400">internal reasoning</span> and 
+                        build function call arguments incrementally. Most frameworks discard or hide this. 
+                        <span class="text-white">nemotron-think captures and surfaces all of it</span> by default.
+                    </div>
+
+                    <div class="mt-6 pt-6 border-t border-white/10 grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+                        <div class="bg-black/40 rounded-2xl p-4">
+                            <div class="text-emerald-400 font-semibold">ReasoningTrace</div>
+                            <div class="text-[11px] text-zinc-400 mt-1 leading-snug">Raw chunks, tool acc state, extra_body used. Perfect for analysis.</div>
+                        </div>
+                        <div class="bg-black/40 rounded-2xl p-4">
+                            <div class="text-emerald-400 font-semibold">AgentStep</div>
+                            <div class="text-[11px] text-zinc-400 mt-1 leading-snug">One full turn: reasoning + tool calls + results + the trace.</div>
+                        </div>
+                        <div class="bg-black/40 rounded-2xl p-4">
+                            <div class="text-emerald-400 font-semibold">AgentRun</div>
+                            <div class="text-[11px] text-zinc-400 mt-1 leading-snug">Complete record. Serializable. The artifact you commit and share.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CLI + PYTHON -->
+    <div class="max-w-7xl mx-auto px-6 pb-16">
+        <div class="grid lg:grid-cols-2 gap-5">
+            <!-- CLI -->
+            <div>
+                <div class="flex items-center gap-x-2 mb-3 px-1">
+                    <i class="fa-solid fa-terminal text-emerald-400"></i>
+                    <div class="font-semibold">CLI (recommended for demos)</div>
+                </div>
+                <div class="terminal text-sm rounded-3xl border border-white/10 p-6 overflow-auto">
+<pre class="text-emerald-300"><code>nemotron-think run "Research the best open-source
+text-to-video models released in the last 6 months"
+
+# With more thinking power
+nemotron-think run "..." --budget 8192
+
+# Perfect offline demos
+nemotron-think replay traces/my_research.json</code></pre>
+                </div>
+                <div class="text-[11px] text-right text-zinc-500 mt-2 px-1">Install once → instant powerful demo harness</div>
+            </div>
+
+            <!-- Python -->
+            <div>
+                <div class="flex items-center gap-x-2 mb-3 px-1">
+                    <i class="fa-solid fa-code text-sky-400"></i>
+                    <div class="font-semibold">Python API (for building agents)</div>
+                </div>
+                <div class="terminal text-sm rounded-3xl border border-white/10 p-6 overflow-auto">
+<pre><code class="text-zinc-300">from nemotron_think import VisibleReasoningAgent
+
+agent = VisibleReasoningAgent(max_steps=8, default_reasoning_budget=4096)
+
+run = agent.run("Write and test a kth-largest function", 
+                reasoning_budget=8192)
+
+run.save("my_agent_run.json")
+print(run.final_answer)</code></pre>
+                </div>
+                <div class="text-[11px] text-right text-zinc-500 mt-2 px-1">Every <span class="font-mono">run.steps</span> contains full reasoning</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOOLS -->
+    <div id="tools" class="border-t border-white/10 bg-zinc-900/50 py-16">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-9">
+                <h2 class="font-semibold text-3xl tracking-tight">Default tools (pluggable &amp; visible)</h2>
+                <p class="text-zinc-400 mt-2">The model sees clean schemas. You see every decision to use them.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
+                <div class="bg-zinc-950 border border-white/10 rounded-3xl p-6">
+                    <div class="font-mono text-emerald-400 text-sm mb-2">get_math_answer</div>
+                    <div class="text-sm text-zinc-300">Safe arithmetic evaluator. Supports +, −, ×, ÷, parentheses.</div>
+                    <div class="text-[10px] mt-4 text-zinc-500 font-mono">expression: string</div>
+                </div>
+                <div class="bg-zinc-950 border border-white/10 rounded-3xl p-6">
+                    <div class="font-mono text-emerald-400 text-sm mb-2">get_current_time</div>
+                    <div class="text-sm text-zinc-300">Returns current UTC time as ISO 8601. Useful for time-aware tasks.</div>
+                    <div class="text-[10px] mt-4 text-zinc-500 font-mono">no parameters</div>
+                </div>
+                <div class="bg-zinc-950 border border-white/10 rounded-3xl p-6">
+                    <div class="font-mono text-emerald-400 text-sm mb-2">python_exec</div>
+                    <div class="text-sm text-zinc-300">Execute Python snippets in a temp dir with timeout + basic guardrails. Great for algorithms &amp; verification.</div>
+                    <div class="text-[10px] mt-4 text-zinc-500 font-mono">code: string, timeout?: number</div>
+                </div>
+                <div class="bg-zinc-950 border border-white/10 rounded-3xl p-6">
+                    <div class="font-mono text-emerald-400 text-sm mb-2">web_search</div>
+                    <div class="text-sm text-zinc-300">DuckDuckGo-backed search (no key). Returns titles, links and snippets for research tasks.</div>
+                    <div class="text-[10px] mt-4 text-zinc-500 font-mono">query: string, max_results?: int</div>
+                </div>
+            </div>
+
+            <div class="text-center mt-8">
+                <a href="extending-tools.md" class="inline-flex items-center text-sm text-emerald-400 hover:text-emerald-300 group">
+                    Learn how to add your own tools in 5 lines 
+                    <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-0.5 transition"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- FINAL CTA -->
+    <div class="max-w-4xl mx-auto px-6 py-16 text-center">
+        <div class="mx-auto max-w-md">
+            <h3 class="font-display text-4xl tracking-tighter">Ready to make your agents trustworthy?</h3>
+            <p class="mt-3 text-zinc-400">Clone the repo, set your NVIDIA key, and run your first visible reasoning agent in under two minutes.</p>
+            
+            <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+                <a href="https://github.com/cobusgreyling/nemotron-think" 
+                   class="inline-flex justify-center items-center gap-x-2 rounded-2xl bg-white px-7 py-3 font-semibold text-black text-sm active:scale-[0.985]">
+                    <i class="fa-brands fa-github"></i>
+                    <span>Clone on GitHub</span>
+                </a>
+                <a href="getting-started.md" 
+                   class="inline-flex justify-center items-center gap-x-2 rounded-2xl border border-white/20 px-7 py-3 font-medium text-sm hover:bg-white/5 active:bg-white/10">
+                    <span>Read the getting started guide</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="border-t border-white/10 py-8 text-xs text-zinc-500">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row md:items-center justify-between gap-y-3">
+            <div>
+                Built to showcase <span class="text-zinc-400">NVIDIA Nemotron 3 Ultra</span> capabilities. MIT licensed.
+            </div>
+            <div class="flex items-center gap-x-5">
+                <a href="https://github.com/cobusgreyling/nemotron-think" class="hover:text-zinc-300">Repository</a>
+                <a href="api-reference.md" class="hover:text-zinc-300">API</a>
+                <a href="traces.md" class="hover:text-zinc-300">Traces</a>
+                <span class="text-white/30">•</span>
+                <span>2026</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Tailwind script
+        function initTailwind() {
+            document.documentElement.style.setProperty('--accent', '#22c55e');
+        }
+
+        // Demo state
+        let currentStepIndex = 0;
+        let isPlaying = false;
+        let demoData = null;
+
+        // Embedded minimal trace (derived from examples/traces/math_tool_example.json)
+        // We use the high-level fields + split reasoning for nice animation.
+        const DEMO_TRACE = {
+            "task": "Use the math tool to compute 42 * 17 - 8 and tell me the result.",
+            "model": "private/nvidia/nemotron-3-ultra-550b-a55b",
+            "steps": [
+                {
+                    "step": 1,
+                    "reasoning": "The user wants me to compute 42 * 17 - 8 using the math tool. I'll call get_math_answer with the expression \"42 * 17 - 8\".",
+                    "content": "",
+                    "tool_calls": [
+                        {
+                            "function": {
+                                "name": "get_math_answer",
+                                "arguments": "{\"expression\": \"42 * 17 - 8\"}"
+                            }
+                        }
+                    ],
+                    "tool_results": [
+                        { "content": "706" }
+                    ]
+                },
+                {
+                    "step": 2,
+                    "reasoning": "The user asked me to use the math tool to compute 42 * 17 - 8 and tell them the result. The tool returned 706. I'll share that with the user.",
+                    "content": "The result of `42 * 17 - 8` is **706**.",
+                    "tool_calls": [],
+                    "tool_results": []
+                }
+            ]
+        };
+
+        function updateStepCounter() {
+            const el = document.getElementById('step-counter');
+            if (!el) return;
+            el.textContent = `Step ${currentStepIndex} / ${DEMO_TRACE.steps.length}`;
+        }
+
+        function clearOutput() {
+            const out = document.getElementById('demo-output');
+            out.innerHTML = '';
+            return out;
+        }
+
+        function typeText(container, text, className = '', speed = 18) {
+            return new Promise((resolve) => {
+                const span = document.createElement('span');
+                span.className = className;
+                container.appendChild(span);
+
+                let i = 0;
+                const interval = setInterval(() => {
+                    if (i < text.length) {
+                        span.textContent += text[i];
+                        i++;
+                        // auto scroll
+                        container.scrollTop = container.scrollHeight;
+                    } else {
+                        clearInterval(interval);
+                        resolve();
+                    }
+                }, speed);
+            });
+        }
+
+        async function showStep(stepIdx, animate = true) {
+            const out = clearOutput();
+            const step = DEMO_TRACE.steps[stepIdx - 1];
+            if (!step) return;
+
+            currentStepIndex = stepIdx;
+            updateStepCounter();
+
+            // Header for the step
+            const header = document.createElement('div');
+            header.className = 'flex items-center gap-x-2 mb-3 text-xs';
+            header.innerHTML = `
+                <span class="px-2.5 py-0.5 rounded-lg bg-white/5 text-white font-mono">STEP ${step.step}</span>
+                <span class="text-zinc-500">•</span>
+            `;
+            out.appendChild(header);
+
+            // Reasoning (green)
+            if (step.reasoning) {
+                const rLabel = document.createElement('div');
+                rLabel.className = 'text-emerald-400 text-xs font-medium tracking-wider mb-1 flex items-center gap-x-1.5';
+                rLabel.innerHTML = `<i class="fa-solid fa-brain text-[10px]"></i> <span>MODEL REASONING</span>`;
+                out.appendChild(rLabel);
+
+                const rBox = document.createElement('div');
+                rBox.className = 'terminal reasoning-text text-sm mb-4 px-4 py-3 rounded-2xl bg-zinc-900 border border-emerald-900/30 leading-relaxed';
+                out.appendChild(rBox);
+
+                if (animate) {
+                    await typeText(rBox, step.reasoning, 'reasoning-text', 12);
+                } else {
+                    rBox.textContent = step.reasoning;
+                }
+                out.scrollTop = out.scrollHeight;
+            }
+
+            // Tool calls (orange) - simulate live building
+            if (step.tool_calls && step.tool_calls.length > 0) {
+                const tLabel = document.createElement('div');
+                tLabel.className = 'text-orange-400 text-xs font-medium tracking-wider mb-1 flex items-center gap-x-1.5 mt-1';
+                tLabel.innerHTML = `<i class="fa-solid fa-wrench text-[10px]"></i> <span>TOOL CALLS (STREAMED)</span>`;
+                out.appendChild(tLabel);
+
+                for (const tc of step.tool_calls) {
+                    const fn = tc.function || tc;
+                    const callBox = document.createElement('div');
+                    callBox.className = 'terminal tool-text mb-3 px-4 py-3 rounded-2xl bg-zinc-900 border border-orange-900/30 text-sm';
+                    out.appendChild(callBox);
+
+                    if (animate) {
+                        callBox.innerHTML = `<span class="opacity-70">[tool#0 name+] </span>`;
+                        await new Promise(r => setTimeout(r, 220));
+                        callBox.innerHTML += `<span>${fn.name}</span>`;
+                        await new Promise(r => setTimeout(r, 180));
+
+                        callBox.innerHTML += `<br><span class="opacity-70">[tool#0 args+] </span>`;
+                        // Simulate streaming the arguments
+                        const argsStr = fn.arguments || '{}';
+                        let built = '';
+                        for (let j = 0; j < argsStr.length; j++) {
+                            built += argsStr[j];
+                            callBox.innerHTML = callBox.innerHTML.split('<br>')[0] + `<br><span class="opacity-70">[tool#0 args+] </span>` + built;
+                            out.scrollTop = out.scrollHeight;
+                            await new Promise(r => setTimeout(r, 9));
+                        }
+                    } else {
+                        callBox.innerHTML = `<span class="opacity-70">[tool] </span>${fn.name}<br><span class="opacity-70">args: </span>${fn.arguments}`;
+                    }
+                }
+            }
+
+            // Tool results
+            if (step.tool_results && step.tool_results.length > 0) {
+                const resLabel = document.createElement('div');
+                resLabel.className = 'text-orange-300 text-xs font-medium tracking-wider mb-1 mt-2 flex items-center gap-x-1.5';
+                resLabel.innerHTML = `<span>OBSERVATIONS</span>`;
+                out.appendChild(resLabel);
+
+                for (const res of step.tool_results) {
+                    const r = document.createElement('div');
+                    r.className = 'terminal mb-3 px-3.5 py-2 text-sm rounded-2xl bg-zinc-950 border border-white/10 text-orange-200/90';
+                    r.textContent = `→ ${res.content}`;
+                    out.appendChild(r);
+                }
+            }
+
+            // Final content (if present)
+            if (step.content && step.content.trim()) {
+                const cLabel = document.createElement('div');
+                cLabel.className = 'text-sky-300 text-xs font-medium tracking-wider mb-1 mt-3 flex items-center gap-x-1.5';
+                cLabel.innerHTML = `<i class="fa-solid fa-comment-dots text-[10px]"></i> <span>FINAL CONTENT</span>`;
+                out.appendChild(cLabel);
+
+                const cBox = document.createElement('div');
+                cBox.className = 'terminal content-text text-sm px-4 py-3 rounded-2xl bg-zinc-900 border border-sky-900/30 leading-relaxed';
+                out.appendChild(cBox);
+
+                if (animate) {
+                    await typeText(cBox, step.content, '', 14);
+                } else {
+                    cBox.innerHTML = step.content;
+                }
+            }
+
+            out.scrollTop = out.scrollHeight;
+        }
+
+        async function playAllSteps() {
+            if (isPlaying) return;
+            isPlaying = true;
+
+            const btn = document.getElementById('play-btn-text');
+            const orig = btn.textContent;
+            btn.textContent = 'Playing...';
+
+            resetDemo(false);
+
+            for (let i = 1; i <= DEMO_TRACE.steps.length; i++) {
+                await showStep(i, true);
+                if (i < DEMO_TRACE.steps.length) {
+                    await new Promise(r => setTimeout(r, 850));
+                }
+            }
+
+            isPlaying = false;
+            btn.textContent = 'Replay';
+            
+            // reset play button text after a moment
+            setTimeout(() => {
+                if (!isPlaying) btn.textContent = orig;
+            }, 1200);
+        }
+
+        async function nextStep() {
+            if (isPlaying) return;
+            let next = currentStepIndex + 1;
+            if (next > DEMO_TRACE.steps.length) {
+                next = 1; // wrap for convenience
+            }
+            await showStep(next, true);
+        }
+
+        function resetDemo(showPlaceholder = true) {
+            isPlaying = false;
+            currentStepIndex = 0;
+            updateStepCounter();
+
+            const out = clearOutput();
+            
+            if (showPlaceholder) {
+                const ph = document.createElement('div');
+                ph.className = 'text-zinc-500 text-xs font-mono';
+                ph.innerHTML = `— Trace loaded. Press <span class="text-emerald-400">Play full trace</span> or <span class="text-emerald-400">Next step</span> —`;
+                out.appendChild(ph);
+                
+                // Show initial task hint
+                document.getElementById('demo-task').textContent = DEMO_TRACE.task;
+            }
+            
+            const btn = document.getElementById('play-btn-text');
+            if (btn) btn.textContent = 'Play full trace';
+        }
+
+        function initDemo() {
+            // Set initial task
+            const taskEl = document.getElementById('demo-task');
+            if (taskEl) taskEl.textContent = DEMO_TRACE.task;
+
+            // Set model
+            const modelEl = document.getElementById('demo-model');
+            if (modelEl) modelEl.textContent = 'nemotron-3-ultra';
+
+            // Start with placeholder
+            resetDemo(true);
+            updateStepCounter();
+
+            // Bonus: allow clicking the task to quickly run first step
+            taskEl.addEventListener('click', () => {
+                if (!isPlaying) showStep(1, true);
+            });
+            taskEl.style.cursor = 'pointer';
+            taskEl.title = 'Click to show step 1';
+
+            // Keyboard support
+            document.addEventListener('keydown', (e) => {
+                if (e.key === ' ' && document.getElementById('demo')) {
+                    e.preventDefault();
+                    if (!isPlaying) {
+                        if (currentStepIndex === 0) playAllSteps();
+                        else nextStep();
+                    }
+                }
+                if ((e.key.toLowerCase() === 'r') && document.getElementById('demo')) {
+                    resetDemo(true);
+                }
+            });
+
+            // Easter egg: clicking the header of the demo terminal resets
+            const header = document.querySelector('#demo .demo-terminal > div');
+            if (header) {
+                header.addEventListener('click', () => {
+                    if (!isPlaying) resetDemo(true);
+                });
+            }
+
+            // Preload first step without animation so people see the structure immediately
+            setTimeout(() => {
+                if (currentStepIndex === 0 && document.getElementById('demo-output').textContent.includes('Waiting')) {
+                    // leave the placeholder, user can trigger
+                }
+            }, 800);
+        }
+
+        // Copy to clipboard helper (used by future buttons if added)
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const toast = document.createElement('div');
+                toast.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 bg-zinc-900 border border-white/20 text-xs px-4 py-2 rounded-2xl shadow-xl';
+                toast.textContent = 'Copied to clipboard';
+                document.body.appendChild(toast);
+                setTimeout(() => toast.remove(), 1400);
+            });
+        }
+
+        // Boot everything
+        function boot() {
+            initTailwind();
+            initDemo();
+
+            // Smooth scroll for nav links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            // Make sure hero image is crisp
+            console.log('%c[nemotron-think] Landing page initialized. Interactive demo ready.', 'color:#3f3f46');
+        }
+
+        window.onload = boot;
+    </script>
+</body>
+</html>

@@ -1,68 +1,75 @@
 <p align="center">
-  <img src="header-agent.jpg" width="100%" alt="nemotron-think — Visible Reasoning Agent Framework for NVIDIA Nemotron 3 Ultra">
+  <img src="assets/header-agent.jpg" width="100%" alt="nemotron-think — Visible Reasoning Agent Framework for NVIDIA Nemotron 3 Ultra">
 </p>
-
-<!-- Alternative banners in assets/:
-     - header-abstract.jpg (beautiful thought bubbles + code)
-     - header-agent.jpg (stylized transparent AI head)
--->
 
 # nemotron-think
 
-**Visible Reasoning Agent Framework for NVIDIA Nemotron 3 Ultra.**
+**Visible Reasoning Agent Framework for NVIDIA Nemotron 3 Ultra**
+
+[![PyPI](https://img.shields.io/badge/pip%20install-nemotron--think-blue)](https://github.com/cobusgreyling/nemotron-think)
+[![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Every step the model takes — its internal reasoning, why it chose a tool, the incremental tool call JSON, the observations — is **logged and surfaced** in real time.
 
-This is not another wrapper. It is purpose-built to showcase (and productionize) the unique strengths of Nemotron 3 Ultra:
+This is not another wrapper. It is purpose-built to showcase (and productionize) the unique strengths of **Nemotron 3 Ultra**:
 
 - `enable_thinking` + controllable `reasoning_budget`
 - Extremely high-quality long-horizon reasoning
-- Streamed `delta.tool_calls` (you watch the arguments being built live)
+- Streamed `delta.tool_calls` (watch the arguments being built live)
 - Reliable self-correction when you feed tool results back
 
-## Installation
+---
+
+## 🚀 Quickstart
 
 ```bash
 git clone https://github.com/cobusgreyling/nemotron-think.git
 cd nemotron-think
-
-python -m venv .venv
-source .venv/bin/activate
+python -m venv .venv && source .venv/bin/activate
 pip install -e .
 
-# Add your key
 cp .env.example .env
-# edit .env → put your nvapi-... key
+# edit .env and add your NVIDIA API key (nvapi-...)
 ```
 
-Or:
-
 ```bash
-pip install git+https://github.com/cobusgreyling/nemotron-think.git
-```
-
-## Quickstart (CLI — the recommended way)
-
-```bash
-# See what the agent can do
+# Explore built-in tools
 nemotron-think tools
 
-# Run a visible reasoning agent (the whole point)
+# Run a visible reasoning agent (the whole point of the project)
 nemotron-think run "A bat and a ball cost $1.10. The bat costs $1 more than the ball. How much does the ball cost? Show your full reasoning and explain the common mistake."
 
-# Use more thinking power + save the complete trace
+# Use more thinking power + persist the complete trace
 nemotron-think run "Research the current best open-source text-to-video models (last 6 months). List the top 3 with licenses, GitHub stars if available, and key differentiators." --budget 8192 --save-trace traces/video_research.json
 
-# Replay any trace later (perfect for demos, no API calls needed)
+# Replay any trace later (perfect for demos, talks, no API calls)
 nemotron-think replay traces/video_research.json
 ```
 
-Live output shows:
-- Green = model reasoning / thinking
-- Orange = tool call progress (incremental JSON)
+Live terminal output uses color:
+
+- **Green** = model reasoning / thinking tokens
+- **Orange** = tool call progress (incremental JSON building)
 - Clean final answer
 
-## Python API (for building your own agents)
+---
+
+## 🌐 Landing Page & Full Documentation
+
+- **Interactive Landing Page + Trace Demo**: open `docs/index.html` in any browser (self-contained, works offline after first load). Includes live replay of saved traces.
+- **Detailed Docs**: see the `docs/` folder:
+  - [Getting Started](docs/getting-started.md)
+  - [Traces & Replay](docs/traces.md)
+  - [API Reference](docs/api-reference.md)
+  - [Extending with Custom Tools](docs/extending-tools.md)
+  - [Configuration & Environment](docs/configuration.md)
+
+Or view on GitHub: browse the `docs/` directory.
+
+---
+
+## Python API
 
 ```python
 from nemotron_think import VisibleReasoningAgent
@@ -82,18 +89,24 @@ run.save("my_code_agent_run.json")
 
 # Inspect every thought
 for step in run.steps:
-    print(step.reasoning[:300])
+    print(f"Step {step.step} reasoning: {step.reasoning[:300]}...")
 ```
+
+---
 
 ## What makes this useful
 
-- **Debugging & trust**: You can finally see *why* the model called a tool or reached a conclusion.
-- **Eval & datasets**: Every `AgentRun` is a rich JSON with full reasoning traces — gold for creating reasoning datasets or running evals.
-- **Demos & talks**: `nemotron-think replay` + terminal recordings = extremely compelling demos.
-- **Production agents**: The same loop you use for impressive demos can be the core of real tools (research agents, coding agents, planning agents).
-- **Controllability**: Dial `reasoning_budget` and `low_effort` per run or per step.
+| Use Case              | Why nemotron-think shines |
+|-----------------------|-----------------------------|
+| **Debugging & trust** | Finally see *why* the model called a tool or reached a conclusion |
+| **Eval & datasets**   | Every `AgentRun` is rich JSON with full reasoning traces — perfect for creating reasoning datasets or running evals |
+| **Demos & talks**     | `nemotron-think replay` + terminal recordings = extremely compelling demos |
+| **Production agents** | The same loop you use for impressive demos can be the core of real tools (research, coding, planning agents) |
+| **Controllability**   | Dial `reasoning_budget` and `low_effort` per run or per step |
 
-## Pluggable Tools (easy to extend)
+---
+
+## Pluggable Tools
 
 Current defaults (all visible to the model with proper schemas):
 
@@ -102,73 +115,109 @@ Current defaults (all visible to the model with proper schemas):
 - `python_exec` — execute and observe Python code (with basic guards)
 - `web_search` — current web information via DuckDuckGo (no extra keys)
 
-Adding your own tool is 5 lines:
+Adding your own tool is ~5 lines:
 
 ```python
 from nemotron_think import VisibleReasoningAgent, Tool
 
 def my_special_tool(x: str) -> str:
-    ...
+    return f"Special result for {x}"
 
 special = Tool(
     name="my_special_tool",
     description="Does the special thing",
-    parameters={...json schema...},
+    parameters={"type": "object", "properties": {"x": {"type": "string"}}, "required": ["x"]},
     func=my_special_tool,
 )
 
-agent = VisibleReasoningAgent(tools=[special, *other_tools])
+agent = VisibleReasoningAgent(tools=[special, *DEFAULT_TOOLS])
 ```
 
-## Project Structure (after `pip install -e .`)
+See full guide: [docs/extending-tools.md](docs/extending-tools.md)
+
+---
+
+## Project Structure
 
 ```
-nemotron_think/
-├── agent.py          # VisibleReasoningAgent + AgentRun/AgentStep
-├── tools.py          # Tool dataclass + DEFAULT_TOOLS
-├── helpers.py        # Low-level streaming + trace capture (you rarely touch)
-├── cli.py            # The `nemotron-think` command
-└── __init__.py
+nemotron-think/
+├── assets/
+│   └── header-agent.jpg
+├── docs/                    # Full documentation + interactive landing page (open docs/index.html)
+├── examples/
+│   └── traces/
+│       └── math_tool_example.json
+├── nemotron_think/
+│   ├── __init__.py
+│   ├── agent.py          # VisibleReasoningAgent + AgentRun/AgentStep
+│   ├── tools.py          # Tool dataclass + DEFAULT_TOOLS
+│   ├── helpers.py        # Low-level streaming + trace capture
+│   └── cli.py            # The `nemotron-think` command
+├── pyproject.toml
+├── README.md
+└── ...
 ```
 
-## Traces
+---
+
+## Traces — the real value
 
 Every `run()` produces a rich `AgentRun` (steps + per-step `ReasoningTrace` + final answer).
 
-They are automatically saved under `traces/`. You can also do `run.save("my.trace.json")`.
+Traces are automatically saved under `traces/`. You can also `run.save("my.trace.json")`.
 
-These traces are the real value — commit them, share them, build UIs on top of them, use them for fine-tuning data.
+These traces are **gold** — commit them, share them, build UIs on top of them, use them for fine-tuning data, or replay for demos without spending tokens.
 
-## Recommended Use Cases (where this shines)
+```bash
+nemotron-think list          # see all your local traces
+nemotron-think replay path/to/trace.json --no-reasoning
+```
+
+See: [docs/traces.md](docs/traces.md)
+
+---
+
+## Recommended Use Cases
 
 - Hard logic, math, algorithm design, planning
 - Research agents that need to cite current information
 - Code agents that write + test + fix (visible reasoning makes the loop trustworthy)
 - Anything where you want an audit trail of the model's thoughts
 
-## Environment variables
+---
 
-- `NVIDIA_API_KEY` (required)
-- `NVIDIA_MODEL` (optional, defaults to the Ultra path)
-- `NVIDIA_BASE_URL`
+## Environment Variables
+
+- `NVIDIA_API_KEY` (required) — your `nvapi-...` key
+- `NVIDIA_MODEL` (optional) — defaults to the Ultra path `private/nvidia/nemotron-3-ultra-550b-a55b`
+- `NVIDIA_BASE_URL` (optional)
+
+---
 
 ## Status & Roadmap
 
-This is a focused, useful seed for a production-grade visible reasoning agent framework.
+Focused, useful seed for a production-grade visible reasoning agent framework.
 
 High-value extensions people usually add next:
+
 - More robust sandbox for `python_exec` (e2b, modal, firecracker, etc.)
 - Real web browser tool (Playwright + readability)
 - Persistence of long-running agent sessions
 - LangGraph / CrewAI / AutoGen adapters that surface the thinking
-- Web UI for trace visualization + scrubber
+- Web UI for trace visualization + scrubber (the `docs/index.html` is a starting point)
+
+---
 
 ## Credits
 
-Built to highlight the capabilities of NVIDIA Nemotron 3 Ultra (the model behind the early `private/nvidia/nemotron-3-ultra-550b-a55b` access and its public successors on integrate.api.nvidia.com).
+Built to highlight the capabilities of **NVIDIA Nemotron 3 Ultra** (the model behind the early private access and its public successors on `integrate.api.nvidia.com`).
 
 The streaming helpers originated from early internal walkthrough notebooks for the model and were significantly cleaned up and extended here.
 
 ---
 
 **Make the model's thinking visible. Build agents people can actually trust and learn from.**
+
+<p align="center">
+  <a href="docs/index.html">→ Open the interactive landing page & trace demo</a>
+</p>
