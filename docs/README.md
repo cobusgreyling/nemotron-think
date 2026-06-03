@@ -60,13 +60,10 @@ All links between markdown files work when browsing the folder on GitHub.
 
 ## Contents
 
-- `index.html` — The beautiful landing page + fully working demo
+- `index.html` — The beautiful landing page + fully working demo (the showcase)
 - `index.md` — Docs hub
-- `getting-started.md`
-- `traces.md`
-- `api-reference.md`
-- `extending-tools.md`
-- `configuration.md`
+- Plus root-level `vercel.json` and `netlify.toml` for easy one-click public deploys of this folder (works with private repos)
+- Other docs: `getting-started.md`, `traces.md`, `api-reference.md`, `extending-tools.md`, `configuration.md`
 - `math_tool_example.json` — the trace used in the interactive demo
 
 ## Updating the landing page
