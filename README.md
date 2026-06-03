@@ -65,9 +65,9 @@ Live terminal output uses color:
 
 ## 🌐 Landing Page & Full Documentation
 
-- **🌐 Web Landing Page + Live Demo**: [https://cobusgreyling.github.io/nemotron-think/](https://cobusgreyling.github.io/nemotron-think/) — the beautiful hosted version with the interactive trace player.
-- **View directly on GitHub**: [docs/index.html](https://github.com/cobusgreyling/nemotron-think/blob/main/docs/index.html)
-- **Local / offline**: open `docs/index.html` in any browser (fully self-contained, no internet needed)
+- **View on GitHub** (recommended while repo is private): [docs/index.html](https://github.com/cobusgreyling/nemotron-think/blob/main/docs/index.html) — click the **Raw** button at the top for the full rendered interactive page.
+- **Local / fully offline** (best current experience): From the cloned repo, run `open docs/index.html` (or `xdg-open` / double-click). The page is completely self-contained.
+- **Official hosted web version**: [https://cobusgreyling.github.io/nemotron-think/](https://cobusgreyling.github.io/nemotron-think/) — enable GitHub Pages (see instructions in `docs/README.md`).
 - **Detailed Docs**: see the `docs/` folder:
   - [Getting Started](docs/getting-started.md)
   - [Traces & Replay](docs/traces.md)
