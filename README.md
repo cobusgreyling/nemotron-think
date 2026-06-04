@@ -64,32 +64,21 @@ Live terminal output uses color:
 
 ## 🌐 Landing Page & Full Documentation
 
-**Important:** GitHub Pages only works for **public** repositories on the free plan. Private repos require a paid plan (Pro+) for Pages. See the official docs: GitHub Pages is available in public repositories with GitHub Free, and in public **and private** repositories only with GitHub Pro, Team, or Enterprise.
+**Official hosted web version:** [https://cobusgreyling.github.io/nemotron-think/](https://cobusgreyling.github.io/nemotron-think/)
 
-### Current options for the showcase
+The `docs/index.html` is a completely self-contained interactive landing page (Tailwind + live trace simulation). It works great when opened locally too:
 
-- **View on GitHub** (recommended while repo is private): [docs/index.html](https://github.com/cobusgreyling/nemotron-think/blob/main/docs/index.html) — click the **Raw** button at the top for the full rendered interactive page.
-- **Local / fully offline** (best current experience): From the cloned repo, run `open docs/index.html` (or `xdg-open` / double-click). The page is completely self-contained.
-- **Free public hosted version (recommended for sharing)**: Deploy the `docs/` folder to Vercel or Netlify (works great with private GitHub repos on the free tier). One-click options below.
+- **Live (recommended):** https://cobusgreyling.github.io/nemotron-think/
+- **Local / offline:** From the cloned repo, run `open docs/index.html` (or double-click). The page needs no server.
 
-#### One-click deploy (free public URL)
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fcobusgreyling%2Fnemotron-think&project-name=nemotron-think&repository-name=nemotron-think)
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/cobusgreyling/nemotron-think)
+**Detailed Docs** (in the `docs/` folder and served by the landing page):
+- [Getting Started](docs/getting-started.md)
+- [Traces & Replay](docs/traces.md)
+- [API Reference](docs/api-reference.md)
+- [Extending with Custom Tools](docs/extending-tools.md)
+- [Configuration & Environment](docs/configuration.md)
 
-(After deploying, set the publish directory to `docs` if the UI asks.)
-
-To enable the official `https://cobusgreyling.github.io/nemotron-think/` URL, you must either:
-- Make this repository **public**, then enable GitHub Pages (Settings → Pages → Source: `main` / `/docs`), **or**
-- Upgrade your GitHub account to Pro (or higher).
-- **Official hosted web version**: [https://cobusgreyling.github.io/nemotron-think/](https://cobusgreyling.github.io/nemotron-think/) — enable GitHub Pages (see instructions in `docs/README.md`).
-- **Detailed Docs**: see the `docs/` folder:
-  - [Getting Started](docs/getting-started.md)
-  - [Traces & Replay](docs/traces.md)
-  - [API Reference](docs/api-reference.md)
-  - [Extending with Custom Tools](docs/extending-tools.md)
-  - [Configuration & Environment](docs/configuration.md)
-
-Or view on GitHub: browse the `docs/` directory.
+Or browse the `docs/` directory on GitHub.
 
 ---
 
